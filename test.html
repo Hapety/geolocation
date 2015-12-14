@@ -37,11 +37,12 @@
             padding: 12px 8px;
             width: 42%;
             border-radius: 8px;
+            /*background-color: #87CEEB;*/
             background-color: #009DDC;
             color: white;
         }
     </style>
-    <script type="text/javascript" src="minified/js/geolocation.min.js"></script>
+    <script type="text/javascript" src="http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
 </head>
 <body>
     <div id="pos-area">
@@ -49,12 +50,14 @@
     </div>
 
     <div id="btn-area">
-        <button onclick="qq.maps.geolocation.getLocation(showPosition, showErr, options)">获取精确定位信息</button>
-        <button onclick="qq.maps.geolocation.getIpLocation(showPosition, showErr)">获取粗糙定位信息</button>
+        <button onclick="geolocation.getLocation(showPosition, showErr, options)">获取精确定位信息</button>
+        <button onclick="geolocation.getIpLocation(showPosition, showErr)">获取粗糙定位信息</button>
         <button onclick="showWatchPosition()">开始监听位置</button>
         <button onclick="showClearWatch()">停止监听位置</button>
     </div>
     <script type="text/JavaScript">
+        var geolocation = new qq.maps.Geolocation("XNYBZ-XKBHS-OJYOK-6DMZO-GOJMZ-FAFL3", "myapp");
+
         document.getElementById("pos-area").style.height = (document.body.clientHeight - 110) + 'px';
 
         var positionNum = 0;
@@ -75,12 +78,12 @@
 
         function showWatchPosition() {
             document.getElementById("demo").innerHTML += "开始监听位置！<br /><br />";
-            qq.maps.geolocation.watchPosition(showPosition);
+            geolocation.watchPosition(showPosition);
             document.getElementById("pos-area").scrollTop = document.getElementById("pos-area").scrollHeight;
         };
 
         function showClearWatch() {
-            qq.maps.geolocation.clearWatch();
+            geolocation.clearWatch();
             document.getElementById("demo").innerHTML += "停止监听位置！<br /><br />";
             document.getElementById("pos-area").scrollTop = document.getElementById("pos-area").scrollHeight;
         };

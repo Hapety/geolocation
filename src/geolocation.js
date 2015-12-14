@@ -3,23 +3,10 @@ qq.maps = qq.maps || {};
 window.soso || (window.soso = qq);
 soso.maps || (soso.maps = qq.maps);
 
-qq.maps.geolocation = (function() {
+qq.maps.Geolocation = (function() {
 
     'use strict';
-
-    //获取地址栏参数
-    var getQueryStr = function(str) {
-        var LocString = String(window.document.location.href);
-        var rs = new RegExp("(^|)" + str + "=([^\&]*)(\&|$)", "gi").exec(LocString),
-            tmp;
-        if (tmp = rs) {
-            return tmp[2];
-        }
-        return '';
-    };
-
-    var geolocation = {},
-        getCallback = null,
+    var getCallback = null,
         getErrCallback = null,
         ipCallback = null,
         ipErrCallback = null,
@@ -29,52 +16,62 @@ qq.maps.geolocation = (function() {
         timeStart = null,
         timeEnd = null,
         timeout = null,
-        _timer = null, // 定时器，用于控制获取定位信息的超时时间
-        key = getQueryStr('key') ? getQueryStr('key') : 'OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77',
-        referer = getQueryStr('referer') ? getQueryStr('referer') : 'myapp';
+        _timer = null; // 定时器，用于控制获取定位信息的超时时间
 
-    geoIframe.setAttribute('id', geoIframeId);
-    geoIframe.setAttribute('src', 'http://apis.map.qq.com/tools/geolocation?key=' + key + '&referer=' + referer);
-    geoIframe.setAttribute('style', 'display: none; width: 100%; height: 30%');
-
-    document.write(geoIframe.outerHTML);
-
-    // 获取定位信息、获取粗糙定位、获取监听位置信息的页面监听事件
-    window.addEventListener('message', function(event) {
-        var loc = event.data;
-
-        if (loc) {
-            // 获取定位信息成功
-            clearTimeout(_timer);
-            getCallback && getCallback(loc);
-            getCallback = null;
-            getErrCallback = null;
-
-            // 获取粗糙定位信息成功
-            ipCallback && ipCallback(loc);
-            ipCallback = null;
-            ipErrCallback = null;
-
-            // 监听定位信息成功
-            watchCallback && watchCallback(loc);
-        } else {
-            timeEnd = new Date().getTime();
-            var timeCost = timeEnd - timeStart;
-            if (timeCost >= timeout) { // 获取定位信息超时
-                getErrCallback && getErrCallback();
-                getErrCallback = null;
-                getCallback = null;
-                clearTimeout(_timer);
-            } else {
-                //继续等待
-            }
-
-            // 获取粗糙定位信息失败
-            ipErrCallback && ipErrCallback();
-            ipErrCallback = null;
-            ipCallback = null;
+    var Geolocation = function(key, referer) {
+        if(!key){
+            alert("请输入key！");
+            return;
         }
-    }, false);
+
+        if(!referer){
+            alert("请输入referer！");
+            return;
+        }
+
+        geoIframe.setAttribute('id', geoIframeId);
+        geoIframe.setAttribute('src', 'http://apis.map.qq.com/tools/geolocation?key=' + key + '&referer=' + referer);
+        geoIframe.setAttribute('style', 'display: none; width: 100%; height: 30%');
+
+        document.write(geoIframe.outerHTML);
+
+        // 获取定位信息、获取粗糙定位、获取监听位置信息的页面监听事件
+        window.addEventListener('message', function(event) {
+            var loc = event.data;
+
+            if (loc) {
+                // 获取定位信息成功
+                clearTimeout(_timer);
+                getCallback && getCallback(loc);
+                getCallback = null;
+                getErrCallback = null;
+
+                // 获取粗糙定位信息成功
+                ipCallback && ipCallback(loc);
+                ipCallback = null;
+                ipErrCallback = null;
+
+                // 监听定位信息成功
+                watchCallback && watchCallback(loc);
+            } else {
+                timeEnd = new Date().getTime();
+                var timeCost = timeEnd - timeStart;
+                if (timeCost >= timeout) { // 获取定位信息超时
+                    getErrCallback && getErrCallback();
+                    getErrCallback = null;
+                    getCallback = null;
+                    clearTimeout(_timer);
+                } else {
+                    //继续等待
+                }
+
+                // 获取粗糙定位信息失败
+                ipErrCallback && ipErrCallback();
+                ipErrCallback = null;
+                ipCallback = null;
+            }
+        }, false);
+    };
 
     /**
     获取位置信息
@@ -82,13 +79,13 @@ qq.maps.geolocation = (function() {
     @param (sucCallback, [errCallback], [options: {timeout: number, failTipFlag: boolean}])
     @return null
     **/
-    geolocation.getLocation = function(sucCallback, errCallback, options) {
+    Geolocation.prototype.getLocation = function(sucCallback, errCallback, options) {
         getCallback = sucCallback;
         getErrCallback = errCallback;
 
         timeStart = new Date().getTime();
-        timeout = (options && options.timeout) ? +options.timeout : 6000, // 超时时间，6s为推荐值，可根据需求更改，不建议太短
-            clearTimeout(_timer);
+        timeout = (options && options.timeout) ? +options.timeout : 6000; // 超时时间，6s为推荐值，可根据需求更改，不建议太短
+        clearTimeout(_timer);
         _timer = setTimeout(function() {
             getErrCallback && getErrCallback();
             getErrCallback = null;
@@ -104,7 +101,7 @@ qq.maps.geolocation = (function() {
     @param (sucCallback, [errCallback])
     @return null
     **/
-    geolocation.getIpLocation = function(sucCallback, errCallback) {
+    Geolocation.prototype.getIpLocation = function(sucCallback, errCallback) {
         ipCallback = sucCallback;
         ipErrCallback = errCallback;
 
@@ -118,7 +115,7 @@ qq.maps.geolocation = (function() {
     @param (sucCallback)
     @return null
     **/
-    geolocation.watchPosition = function(sucCallback) {
+    Geolocation.prototype.watchPosition = function(sucCallback) {
         watchCallback = sucCallback;
 
         // 主动与前端定位组件通信（可选），监听位置信息的改变
@@ -131,13 +128,13 @@ qq.maps.geolocation = (function() {
     @param null
     @return null
     **/
-    geolocation.clearWatch = function() {
+    Geolocation.prototype.clearWatch = function() {
 
         // 主动与前端定位组件通信（可选），清除监听
         watchCallback = null;
         document.getElementById(geoIframeId).contentWindow.postMessage('clearWatch', '*');
     };
 
-    return geolocation;
+    return Geolocation;
 
 })();
