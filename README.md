@@ -7,7 +7,7 @@
 
 ###代码地址
 js引入地址：[http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js](http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js)  
-github地址：[https://github.com/Hapety/geolocation.git](https://github.com/Hapety/geolocation.git)
+github地址：[https://github.com/Hapety/geolocation](https://github.com/Hapety/geolocation)
 
 ###调用参数
 调用前端定位函数之前必须创建 qq.maps.Geolocation 对象，构造函数的参数如下：
