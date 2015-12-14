@@ -1,12 +1,16 @@
-# geolocation
-腾讯地图二次封装的前端定位组件
+# geolocation - 前端定位组件
+腾讯地图前端定位组件的二次封装，提供了简单易用的定位接口，帮助业务层获的用户的位置信息（需要用户授权），解决了纯 HTML5 Geolocation 定位能力弱、成功率低的问题，降低了开发成本，提升了定位准确度。
 
-##前端定位组件
+##调用方式
 
-前端定位组件提供了简单易用的定位接口，帮助业务层获的用户的位置信息（需要用户授权），解决了纯 HTML5 Geolocation 定位能力弱、成功率低的问题，降低了开发成本，提升了定位准确度。
+通过引入 js 的方式调用前端定位组件，定位组件在加载完后会自动开启异步定位，定位所需的耗时不固定，跟用户实际的客户端环境有关。正常情况下在1-3s，网络较差时需要时间较长。
 
-##调用参数
+###代码地址
+js引入地址：[http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js](http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js)  
+github地址：[https://github.com/Hapety/geolocation.git](https://github.com/Hapety/geolocation.git)
 
+###调用参数
+调用前端定位函数之前必须创建 qq.maps.Geolocation 对象，构造函数的参数如下：
 
 <table>
    <tr>
@@ -29,16 +33,8 @@
    </tr>
 </table>
 
-
-##调用方式
-
-通过引入 js 的方式调用前端定位组件，定位组件在加载完后会自动开启异步定位，定位所需的耗时不固定，跟用户实际的客户端环境有关。正常情况下在1-3s，网络较差时需要时间较长。
-
-###代码地址
-github地址：[https://github.com/Hapety/geolocation.git](https://github.com/Hapety/geolocation.git)
-
 ###定位函数
-前端定位组件一共封装了四个函数，全部位于 qq.maps.geolocation 域下，这些函数包括：
+前端定位组件一共封装了四个函数，这些函数包括：
 
 1、getLocation(sucCallback, [errCallback], [options: {timeout: number, failTipFlag: boolean}])  
 获取当前所在地理位置，调用一次即重新定位一次，定位数据比较精确。  
@@ -58,7 +54,7 @@ sucCallback为定位成功回调函数，必填。
 4、clearWatch()  
 清除监听，类似HTML5 Geolocation的clearWatch。 
 
-###定位成功时返回的结果
+##定位成功时返回的结果
 
 	{
 	    "adcode": "440305", // 行政区ID，六位数字, 前两位是省，中间是市，后面两位是区
@@ -69,10 +65,13 @@ sucCallback为定位成功回调函数，必填。
 	    "addr": "南山区深圳大学上文山湖附近",
 	    "lat": 22.530001, // 火星坐标(gcj02)，腾讯、Google、高德通用
 	    "lng": 113.935364,
-	    "accuracy": 8263 // 误差范围，以米为单位
+	    "accuracy": 62 // 误差范围，以米为单位
 	}
 
-###一个完整的调用示例
+##预览
+![前端定位组件预览](http://3gimg.qq.com/lightmap/components/geolocation/cdn-geolocation-barcode.png)
+
+##完整的调用示例
 
 在该示例中，前端定位组件定位成功后，会将json格式的定位数据回传给定位成功回调函数，将定位信息打印出来。
 
@@ -118,7 +117,7 @@ sucCallback为定位成功回调函数，必填。
 	            color: white;
 	        }
 	    </style>
-	    <script type="text/javascript" src="minified/js/geolocation.min.js"></script>
+	    <script type="text/javascript" src="http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
 	</head>
 	<body>
 	    <div id="pos-area">
@@ -126,12 +125,14 @@ sucCallback为定位成功回调函数，必填。
 	    </div>
 	
 	    <div id="btn-area">
-	        <button onclick="qq.maps.geolocation.getLocation(showPosition, showErr, options)">获取精确定位信息</button>
-	        <button onclick="qq.maps.geolocation.getIpLocation(showPosition, showErr)">获取粗糙定位信息</button>
+	        <button onclick="geolocation.getLocation(showPosition, showErr, options)">获取精确定位信息</button>
+	        <button onclick="geolocation.getIpLocation(showPosition, showErr)">获取粗糙定位信息</button>
 	        <button onclick="showWatchPosition()">开始监听位置</button>
 	        <button onclick="showClearWatch()">停止监听位置</button>
 	    </div>
 	    <script type="text/JavaScript">
+	        var geolocation = new qq.maps.Geolocation("XNYBZ-XKBHS-OJYOK-6DMZO-GOJMZ-FAFL3", "myapp");
+	
 	        document.getElementById("pos-area").style.height = (document.body.clientHeight - 110) + 'px';
 	
 	        var positionNum = 0;
@@ -152,18 +153,15 @@ sucCallback为定位成功回调函数，必填。
 	
 	        function showWatchPosition() {
 	            document.getElementById("demo").innerHTML += "开始监听位置！<br /><br />";
-	            qq.maps.geolocation.watchPosition(showPosition);
+	            geolocation.watchPosition(showPosition);
 	            document.getElementById("pos-area").scrollTop = document.getElementById("pos-area").scrollHeight;
 	        };
 	
 	        function showClearWatch() {
-	            qq.maps.geolocation.clearWatch();
+	            geolocation.clearWatch();
 	            document.getElementById("demo").innerHTML += "停止监听位置！<br /><br />";
 	            document.getElementById("pos-area").scrollTop = document.getElementById("pos-area").scrollHeight;
 	        };
 	    </script>
 	</body>
 	</html>
-
-##预览
-![前端定位组件预览](geo-barcode.png)
