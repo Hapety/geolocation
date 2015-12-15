@@ -1,0 +1,20 @@
+{
+  "name": "Geolocation",
+  "description": "Secondary package of geolocation component",
+  "version": "1.0.0",
+  "homepage": "http://lbs.qq.com/tool/component-geolocation.html",
+  "author": "SOUTHPOLE",
+  "scripts": {
+    "start": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hapety/geolocation"
+  },
+  "devDependencies": {
+    "del": "*",
+    "gulp": "*",
+    "gulp-uglify": "*",
+    "gulp-rename": "*"
+  }
+}
