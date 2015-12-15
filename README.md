@@ -1,9 +1,9 @@
-# geolocation - 前端定位组件
-腾讯地图前端定位组件的二次封装，提供了简单易用的定位接口，帮助业务层获的用户的位置信息（需要用户授权），解决了纯 HTML5 Geolocation 定位能力弱、成功率低的问题，降低了开发成本，提升了定位准确度。
+# geolocation - 前端定位模块
+前端定位模块是对前端定位组件的二次封装，详细文档可参考[腾讯地图开放平台前端定位组件](http://lbs.qq.com/tool/component-geolocation.html)。本模块提供了简单易用的定位接口，帮助业务层获的用户的位置信息（需要用户授权），解决了纯 HTML5 Geolocation 定位能力弱、成功率低的问题，降低了开发成本，提升了定位准确度。
 
 ##调用方式
 
-通过引入 js 的方式调用前端定位组件，定位组件在加载完后会自动开启异步定位，定位所需的耗时不固定，跟用户实际的客户端环境有关。正常情况下在1-3s，网络较差时需要时间较长。
+通过引入 js 的方式调用前端定位模块，定位模块在加载完后会自动开启异步定位，定位所需的耗时不固定，跟用户实际的客户端环境有关。正常情况下在1-3s，网络较差时需要时间较长。
 
 ###代码地址
 js引入地址：[http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js](http://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js)  
@@ -34,13 +34,13 @@ github地址：[https://github.com/Hapety/geolocation](https://github.com/Hapety
 </table>
 
 ###定位函数
-前端定位组件一共封装了四个函数，这些函数包括：
+前端定位模块一共封装了四个函数，这些函数包括：
 
-1、getLocation(sucCallback, [errCallback], [options: {timeout: number, failTipFlag: boolean}])  
+1、getLocation(sucCallback, errCallback, [options: {timeout: number, failTipFlag: boolean}])  
 获取当前所在地理位置，调用一次即重新定位一次，定位数据比较精确。  
 sucCallback为定位成功回调函数，必填；  
-errCallback为定位失败回调函数，选填；  
-options为定位选项，选填，可以通过timeout参数设置定位的超时时间，可以通过failTipFlag参数设置是否提示错误。 
+errCallback为定位失败回调函数，选填，如果不填，请设为null；  
+options为定位选项，选填，可以通过timeout参数设置定位的超时时间，默认值为10s，可以通过failTipFlag参数设置是否提示错误（暂未支持）。 
 
 2、getIpLocation(sucCallback, [errCallback])  
 立即获取当前所在地理位置，适用于非精确定位场景，是IP定位，城市级别。  
@@ -73,13 +73,13 @@ sucCallback为定位成功回调函数，必填。
 
 ##完整的调用示例
 
-在该示例中，前端定位组件定位成功后，会将json格式的定位数据回传给定位成功回调函数，将定位信息打印出来。
+在该示例中，前端定位模块定位成功后，会将json格式的定位数据回传给定位成功回调函数，将定位信息打印出来。
 
 	<!DOCTYPE html>
 	<html> 
 	<head> 
 	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-	    <title>二次封装的前端定位组件</title> 
+	    <title>前端定位模块</title> 
 	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
 	    <style>
 	        * {
@@ -131,7 +131,7 @@ sucCallback为定位成功回调函数，必填。
 	        <button onclick="showClearWatch()">停止监听位置</button>
 	    </div>
 	    <script type="text/JavaScript">
-	        var geolocation = new qq.maps.Geolocation("XNYBZ-XKBHS-OJYOK-6DMZO-GOJMZ-FAFL3", "myapp");
+	        var geolocation = new qq.maps.Geolocation("OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77", "myapp");
 	
 	        document.getElementById("pos-area").style.height = (document.body.clientHeight - 110) + 'px';
 	
