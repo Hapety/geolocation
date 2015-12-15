@@ -84,7 +84,7 @@ qq.maps.Geolocation = (function() {
         getErrCallback = errCallback;
 
         timeStart = new Date().getTime();
-        timeout = (options && options.timeout) ? +options.timeout : 6000; // 超时时间，6s为推荐值，可根据需求更改，不建议太短
+        timeout = (options && options.timeout) ? +options.timeout : 10000; // 超时时间，10s为推荐值，可根据需求更改，不建议太短
         clearTimeout(_timer);
         _timer = setTimeout(function() {
             getErrCallback && getErrCallback();

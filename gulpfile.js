@@ -9,11 +9,11 @@ gulp.task('minifyjs', function() {
             suffix: '.min'
         })) //rename压缩后的文件名
         .pipe(uglify()) //压缩
-        .pipe(gulp.dest('dest')); //输出
+        .pipe(gulp.dest('dist')); //输出
 });
 
 gulp.task('clean', function(cb) {
-    del(['dest'], cb)
+    del(['dist'], cb)
 });
 
 gulp.task('default', ['clean', 'minifyjs'], function() {});
