@@ -30,7 +30,7 @@ qq.maps.Geolocation = (function() {
         }
 
         geoIframe.setAttribute('id', geoIframeId);
-        geoIframe.setAttribute('src', 'http://apis.map.qq.com/tools/geolocation?key=' + key + '&referer=' + referer);
+        geoIframe.setAttribute('src', 'http://apis.map.qq.com/tools/geolocation?key=' + key + '&referer=' + referer + '_js');
         geoIframe.setAttribute('style', 'display: none; width: 100%; height: 30%');
 
         document.write(geoIframe.outerHTML);
