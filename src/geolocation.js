@@ -39,7 +39,7 @@ qq.maps.Geolocation = (function() {
         window.addEventListener('message', function(event) {
             var loc = event.data;
 
-            if (loc) {
+            if (loc && loc.module == 'geolocation') {
                 // 获取定位信息成功
                 clearTimeout(_timer);
                 getCallback && getCallback(loc);
